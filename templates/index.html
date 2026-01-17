@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Attendance System</title>
+    <style>
+        body {
+            background-color: #e3f2fd; /* Light Blue Background */
+            font-family: Arial, sans-serif;
+            margin: 0; padding: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .video-section { width: 70%; text-align: center; }
+        .stats-section {
+            width: 25%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        h1 { color: #1565c0; }
+        .status-box { margin-top: 10px; font-weight: bold; font-size: 1.2em; color: green; }
+    </style>
+</head>
+<body>
+    <center><h1>SMART ATTENDANCE SYSTEM</h1></center>
+    
+    <div class="container">
+        <div class="video-section">
+            <img src="{{ url_for('video_feed') }}" width="100%" style="border: 5px solid #1565c0;">
+            <div class="status-box">
+                Detected: <span id="person-name">Scanning...</span> - <span id="status">WAITING</span>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h3>Attendance Summary</h3>
+            <hr>
+            <p>Total Students Present:</p>
+            <h2 id="total-count" style="color: #1565c0;">0</h2>
+        </div>
+    </div>
+
+    <script>
+        setInterval(function() {
+            fetch('/get_stats').then(response => response.json()).then(data => {
+                document.getElementById('person-name').innerText = data.last_name;
+                document.getElementById('status').innerText = data.last_name !== "Unknown" ? "PRESENT" : "SCANNING";
+                document.getElementById('total-count').innerText = data.total_count;
+            });
+        }, 1000);
+    </script>
+</body>
+</html>
