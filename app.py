@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 # ADD THESE TWO LINES HERE
 present_students = set()
-last_detected = "Scanning..."
+last_detected = "None"
 
 # 1. Initialize Flask at the top
 app = Flask(__name__)
